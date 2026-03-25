@@ -1,16 +1,17 @@
 <?php
-$name  = trim($_GET['name'] ?? '');
+$name  = $_GET['name'];
+$name =  str_replace(' ', '%20', $name)   ;
 $data  = null;
 $error = '';
 
 if ($name === '') {
     $error = "Kein Ländername übergeben.";
 } else {
-    $apiUrl = "https://restcountries.com/v3.1/name/" . urlencode($name) . "?fullText=true";
+    $apiUrl = "https://restcountries.com/v3.1/name/$name";
     $raw    = @file_get_contents($apiUrl);
     if ($raw === false) {
         // fallback: partial match
-        $apiUrl = "https://restcountries.com/v3.1/name/" . urlencode($name);
+        $apiUrl = "https://restcountries.com/v3.1/name/$name" ;
         $raw    = @file_get_contents($apiUrl);
     }
     if ($raw === false) {
